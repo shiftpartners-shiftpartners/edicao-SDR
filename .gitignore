@@ -1,0 +1,37 @@
+# Local media and renders
+media/source/
+media/work/
+media/renders/
+media/contact-sheets/
+output/
+renders/
+
+# External upstream checkouts
+.external/
+vendor-local/
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Node / editors
+node_modules/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Generated analysis
+*.tmp
+*.cache
