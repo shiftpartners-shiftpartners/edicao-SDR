@@ -1,0 +1,27 @@
+project_id: peca-exemplo
+source_files:
+  - path: "media/source/exemplo.mp4"
+    immutable: true
+output:
+  format: "9:16"
+  duration_seconds: 15
+  filename: "produto__c01__h01__e01__9x16__v01.mp4"
+concept:
+  id: c01
+  summary: ""
+hook:
+  id: h01
+  summary: ""
+timeline:
+  - order: 1
+    source: "exemplo.mp4"
+    in: "00:00:00.000"
+    out: "00:00:02.500"
+    crop: ""
+    text_overlay: ""
+    notes: ""
+qc:
+  technical: pending
+  creative: pending
+  truth_compliance: pending
+human_approval: required
