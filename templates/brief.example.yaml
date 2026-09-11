@@ -1,0 +1,21 @@
+id: peca-exemplo
+objetivo: ""
+produto_ou_linha: ""
+publico: ""
+oferta_confirmada: ""
+restricoes:
+  - ""
+conceito: ""
+hooks:
+  - id: h01
+    texto_ou_cena: ""
+formatos:
+  - "9:16"
+  - "4:5"
+duracoes_alvo_segundos:
+  - 15
+  - 30
+fontes_confirmadas:
+  - ""
+pendencias_humanas:
+  - ""
