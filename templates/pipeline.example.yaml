@@ -1,0 +1,33 @@
+name: media-edit
+version: 1
+steps:
+  - stage: preprocess
+    output:
+      - footage-index.json
+      - contact-sheets
+      - transcript.json
+
+  - stage: director
+    gate: human_review_optional
+    output:
+      - edit-plan.yaml
+
+  - stage: trim_refiner
+    output:
+      - edit-plan.refined.yaml
+
+  - stage: renderer
+    engine: ffmpeg
+    output:
+      - render.mp4
+
+  - stage: reviewer
+    retry_if:
+      condition: critical_failure_or_low_score
+      max_retries: 2
+      feedback_target: responsible_stage
+    output:
+      - qc.yaml
+
+  - stage: human_approval
+    required: true
