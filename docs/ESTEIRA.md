@@ -16,7 +16,7 @@ Uma linha só, com o olhar da Andromeda: a Meta recupera anúncios por diferenç
 | 7 | Decisão | `DECISAO_ARQUITETO.md` + ledger (`status`, `human_approval`) | QC pass, verdade liberada, diferença material; risco aceito escrito | ledger aprovado |
 | 8 | Handoff | `make handoff ID=... OBJ=... BY=...` | só `approved`; pacote com hipótese e sinal a observar | `handoff-*.md` |
 | 9 | Acabamento final | CapCut: trilha baixa, fonte da marca, logo, a partir do `.ass` e do rascunho | QC final no MP4 exportado | MP4 para mídia |
-| 10 | Veiculação e observação | operação de mídia, com aprovação humana; observação em 7 dias por `creative_id` | pré-requisitos: número de WhatsApp aprovado, compra marcada na conversa | `performance-observations.jsonl` → decisão escalar, iterar, pausar |
+| 10 | Veiculação e observação | operação de mídia, com aprovação humana; observação em 7 dias por `creative_id`; check-in diário registra gasto, conversas, erros de entrega (`issues_info`) e status do número no diário da campanha | pré-requisitos: número de WhatsApp aprovado, compra marcada na conversa (etiquetas de pedido ou Conversions API com `ctwa_clid`; ver `docs/PESQUISA_PRE-REQUISITOS_ANDROMEDA_2026-09-18.md`) | `performance-observations.jsonl` → decisão escalar, iterar, pausar |
 
 A esteira (estação 5) nunca aprova nem publica. Ela para em `qc_pending` e escreve o relatório para a decisão humana ou do Arquiteto por delegação registrada.
 
