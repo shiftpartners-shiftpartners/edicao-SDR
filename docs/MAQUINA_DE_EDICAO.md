@@ -11,6 +11,8 @@ Este documento liga cada etapa do pipeline ao script que executa, ao agente que 
 | 3. Refino de corte | `scripts/edp_to_render_plan.py` | `refinador-de-corte` | `renderizar-corte` | `*.edit-plan.refined.yaml`, `*.render-plan.json` |
 | 4. Render | `scripts/render_plan.py` | `renderer` | `renderizar-corte` | `media/renders/<id>__vNN.mp4` + `.mp4.json` |
 | 4b. Legenda | `scripts/caption_segments.py` | `refinador-de-corte` | `renderizar-corte` | `legenda-vNN.json`, `legenda-vNN.srt` (acabamento humano) |
+| 4c. Rascunho de acabamento | `scripts/finish_draft.py` (legendas do EDP + locução + loudnorm) | `renderer` | `renderizar-corte` | `*-draft.mp4` + `.ass` para revisão no celular; acabamento final continua humano |
+| 0b. Saneamento de fonte | `scripts/normalize_source.py` | `preprocessador` | `inventariar-material` | `*.rangefix.mp4` (irmão remuxado; original intacto) |
 | 5. QC | `scripts/qc_render.py --template`, `scripts/contact_sheet.py` | `revisor-qc` + `guardiao-da-verdade` | `qc-render` | `*.qc.json`, parecer curto |
 | 6. Diversidade do lote | `scripts/diversity_check.py` | `revisor-qc` | `auditar-diversidade` | `diversidade-vNN.md` |
 | 7. Aprovação humana | `scripts/validate_records.py` | ninguém: humano | — | ledger com `human_approval: approved` |

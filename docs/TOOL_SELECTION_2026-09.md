@@ -50,3 +50,18 @@ FFmpeg é o motor efetivamente usado e testado. faster-whisper ganhou adapter op
 ## O que ainda falta para chamar de exemplar em produção
 
 Teste de aceitação com mídia real e aprovação do editor; QC visual/áudio em celular; legenda e transcrição verificadas; comparação entre formatos; CI remoto verde; lock transitivo de dependências e revisão periódica de vulnerabilidades; decisão do titular sobre licença própria. O motor atual é um rough-cut seguro e limitado, não substituto de um editor completo.
+
+
+## Adendo 2026-09-18 (tarde): lacunas encontradas em lote real
+
+Verificado em lote real do Kit Cozinha (edicao-SDR) e nos clipes de banco (edi-ofdr). Detalhe e plano em `AUDITORIA_24H_2026-09-18.md`.
+
+| Lacuna | Fonte consultada (estrelas em 2026-09-18) | Decisão |
+|---|---|---|
+| Legenda + locução + loudness no rascunho | FFmpeg libass, `loudnorm`, `amix` (nativos) | ADOTADO: `scripts/finish_draft.py`, testado |
+| Clipe de celular com faixa de cor inválida | FFmpeg `h264_metadata` bsf (nativo) | ADOTADO: `scripts/normalize_source.py`, testado; original intacto |
+| Upscale 480p → 1080p | [xinntao/Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) 36,8 mil; [k4yt3x/video2x](https://github.com/k4yt3x/video2x) 21,7 mil | ADOTADO em torch puro: `tools/upscale_realesrgan.py`, inferência testada em 6 quadros nesta sessão (7 s/quadro em CPU); licença BSD-3 no código, pesos com termos próprios |
+| Reenquadrar 16:9 → 9:16 | [KazKozDev/auto-vertical-reframe](https://github.com/KazKozDev/auto-vertical-reframe) 21 | AVALIAR em 1 clipe; fallback é `crop` por cena no EDP |
+| Legenda por palavra sincronizada com locução | [m-bain/whisperX](https://github.com/m-bain/whisperX) 24,1 mil | ADIAR até haver torch no editor |
+| Loudness em lote com duas passadas | [slhck/ffmpeg-normalize](https://github.com/slhck/ffmpeg-normalize) 1,5 mil | REFERÊNCIA; filtro nativo basta por ora |
+| Geradores de short (ai-shorts-generator, clip-forge, shorts-factory) | pequenos, recentes | NÃO ADOTAR: conteúdo genérico, sem verdade comercial |

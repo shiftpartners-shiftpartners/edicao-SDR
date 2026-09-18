@@ -3,10 +3,10 @@ PY ?= python
 ID ?= exemplo
 TEMPLATE ?= meta-ad
 
-.PHONY: setup check test validate diversity inventory sheet plan dry-run render qc captions handoff help
+.PHONY: setup check test validate diversity inventory sheet normalize plan dry-run render finish qc captions handoff help
 
 help:
-	@echo "make setup | check | inventory | sheet SRC=... | plan ID=... | dry-run ID=... | render ID=... | qc ID=... | diversity | handoff ID=... OBJ=... BY=..."
+	@echo "make setup | check | inventory | sheet SRC=... | normalize SRC=... | plan ID=... | dry-run ID=... | render ID=... | finish ID=... VO=... | qc ID=... | diversity | handoff ID=... OBJ=... BY=..."
 
 setup:
 	$(PY) -m pip install -r requirements.txt
@@ -31,6 +31,9 @@ inventory:
 sheet:
 	$(PY) scripts/contact_sheet.py $(SRC) --out media/contact-sheets/$(notdir $(basename $(SRC))).png --frames 16
 
+normalize:
+	$(PY) scripts/normalize_source.py $(SRC)
+
 plan:
 	$(PY) scripts/edp_to_render_plan.py media/work/$(ID).edit-plan.yaml --out media/work/$(ID).render-plan.json --unsupported report
 
@@ -39,6 +42,9 @@ dry-run:
 
 render:
 	$(PY) scripts/render_plan.py media/work/$(ID).render-plan.json --source-root media/source --out media/renders/$(ID).mp4 --execute
+
+finish:
+	$(PY) scripts/finish_draft.py media/work/$(ID).edit-plan.yaml media/renders/$(ID).mp4 --out media/renders/$(ID)-draft.mp4 $(if $(VO),--vo $(VO),)
 
 qc:
 	$(PY) scripts/qc_render.py media/renders/$(ID).mp4 --template $(TEMPLATE) --out media/renders/$(ID).qc.json
