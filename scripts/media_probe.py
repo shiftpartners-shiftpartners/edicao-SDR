@@ -20,7 +20,7 @@ def run_ffprobe(path: Path) -> dict:
         'ffprobe', '-v', 'error', '-show_streams', '-show_format',
         '-of', 'json', str(path)
     ]
-    proc = subprocess.run(cmd, check=True, capture_output=True, text=True)
+    proc = subprocess.run(cmd, check=True, capture_output=True, text=True, timeout=60)
     return json.loads(proc.stdout)
 
 
@@ -113,6 +113,13 @@ def main():
             if p.is_file() and p.suffix.lower() in MEDIA_EXTENSIONS
         )
 
+    out = Path(args.out).resolve()
+    if out.exists() or out.is_symlink():
+        raise SystemExit('Output already exists; choose a new version')
+    if out == source or (source.is_dir() and out.is_relative_to(source)):
+        raise SystemExit('Output must be outside source')
+    if not files:
+        raise SystemExit('No supported media files found')
     entries = []
     errors = []
     for path in files:
@@ -130,10 +137,12 @@ def main():
         'errors': errors,
     }
 
-    out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding='utf-8')
+    with out.open('x', encoding='utf-8') as handle:
+        json.dump(payload, handle, indent=2, ensure_ascii=False)
     print(out)
+    if errors:
+        raise SystemExit(1)
 
 
 if __name__ == '__main__':

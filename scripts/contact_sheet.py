@@ -11,7 +11,7 @@ def duration_seconds(path: Path) -> float:
         'ffprobe', '-v', 'error', '-show_entries', 'format=duration',
         '-of', 'default=noprint_wrappers=1:nokey=1', str(path)
     ]
-    proc = subprocess.run(cmd, check=True, capture_output=True, text=True)
+    proc = subprocess.run(cmd, check=True, capture_output=True, text=True, timeout=60)
     return float(proc.stdout.strip())
 
 
@@ -35,7 +35,7 @@ def main():
         raise SystemExit('frames and columns must be >= 1; width must be >= 64')
 
     duration = duration_seconds(source)
-    if duration <= 0:
+    if not math.isfinite(duration) or duration <= 0:
         raise SystemExit('Could not determine a positive video duration')
 
     rows = math.ceil(args.frames / args.columns)
@@ -47,12 +47,16 @@ def main():
     )
 
     out = Path(args.out)
+    if out.resolve() == source or out.exists() or out.is_symlink():
+        raise SystemExit('Output exists or equals source; choose a new path')
+    if out.suffix.lower() != '.png':
+        raise SystemExit('Output must be PNG')
     out.parent.mkdir(parents=True, exist_ok=True)
     cmd = [
-        'ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-i', str(source),
+        'ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'error', '-n', '-i', str(source),
         '-vf', vf, '-frames:v', '1', str(out)
     ]
-    subprocess.run(cmd, check=True)
+    subprocess.run(cmd, check=True, timeout=120)
     print(out)
 
 

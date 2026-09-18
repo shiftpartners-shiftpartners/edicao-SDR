@@ -1,5 +1,7 @@
 # Pesquisa de componentes reutilizáveis — edição de mídia
 
+Atualização verificada: [seleção de setembro de 2026](TOOL_SELECTION_2026-09.md). A pesquisa abaixo é histórica; não confundir indicação de ferramenta com instalação ou integração concluída.
+
 Pesquisa inicial de projetos que podem contribuir para a bancada sem transformar o repositório em um clone de plataforma.
 
 ## Decisão arquitetural

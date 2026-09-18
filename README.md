@@ -4,6 +4,16 @@ Repositório operacional para **organizar, editar, variar e revisar imagens e v�
 
 Este repositório não é uma biblioteca de “efeitos de IA” nem um gerenciador de campanhas. Ele funciona como uma **bancada de produção editorial e técnica**: transforma material bruto + briefing + fatos aprovados em peças versionadas, reproduzíveis e prontas para validação humana.
 
+## Comece aqui
+
+- [Como usar (operador)](COMO-USAR.md)
+- [Máquina de edição: etapas × scripts × agentes × skills](docs/MAQUINA_DE_EDICAO.md)
+- [Padrão editorial OSDR](docs/PADRAO_EDICAO_OSDR.md) e [templates por formato](templates/osdr-formats.json)
+- [Especificações Meta e área segura](docs/META_SPECS.md)
+- [Instalação e comandos](docs/SETUP.md)
+
+Implementado e testado com mídia sintética: inventário, contact sheet, conversão EDP → plano de render, render de cortes sequenciais com FFmpeg, legenda segmentada no padrão OSDR, QC técnico por template, validação de registros, auditoria de diversidade Andromeda e pacote de handoff. Seis agentes e sete skills em `.claude/` operam esses scripts com gate humano em toda saída.
+
 ## Objetivo
 
 Criar um fluxo único de trabalho para que material bruto, decisões criativas, planos de edição, renders e QC permaneçam conectados sem perder origem, intenção ou governança.
@@ -79,27 +89,31 @@ Regra da casa: **base primeiro, estrutura depois, inteligência por último**.
 
 ```text
 .
-├── README.md
-├── AGENTS.md
-├── CLAUDE.md
-├── THIRD_PARTY.md
-├── .gitignore
+├── README.md · COMO-USAR.md · AGENTS.md · CLAUDE.md · THIRD_PARTY.md
+├── Makefile · requirements.txt · .gitignore · .github/workflows/test.yml
 ├── docs/
-│   ├── ANDROMEDA.md
-│   ├── WORKFLOW.md
-│   ├── PIPELINE.md
-│   ├── QC.md
-│   └── RESEARCH_UPSTREAMS.md
+│   ├── MAQUINA_DE_EDICAO.md · PADRAO_EDICAO_OSDR.md · META_SPECS.md
+│   ├── SETUP.md · PIPELINE.md · WORKFLOW.md · QC.md · ANDROMEDA.md
+│   ├── LEARNING_LOOP.md · MEASUREMENT_CONTRACT.md
+│   └── ARCHITECTURE_DECISION.md · TOOL_SELECTION_2026-09.md · RESEARCH_UPSTREAMS.md
+├── schemas/            creative-variant · performance-observation (JSON Schema)
 ├── scripts/
-│   ├── media_probe.py
-│   └── contact_sheet.py
+│   ├── media_probe.py · contact_sheet.py          # inventário
+│   ├── edp_to_render_plan.py · render_plan.py     # EDP → plano → render
+│   ├── caption_segments.py                        # legenda 3–5 palavras + SRT
+│   ├── qc_render.py · diversity_check.py          # QC por template e diversidade
+│   ├── handoff_pack.py · validate_records.py      # handoff e registros
+│   └── transcribe_local.py                        # adapter opcional
 ├── templates/
-│   ├── brief.example.yaml
-│   ├── edit-plan.example.yaml
-│   ├── pipeline.example.yaml
+│   ├── osdr-formats.json                          # templates editoriais por formato
+│   ├── brief · edit-plan · pipeline (YAML) · render-plan (JSON)
+│   ├── creative-ledger · performance-observations (JSONL)
 │   └── variant-matrix.example.md
-└── media/
-    └── README.md
+├── tests/
+├── media/README.md                                # mídia fica fora do Git
+└── .claude/
+    ├── agents/   preprocessador · diretor-criativo · refinador-de-corte · renderer · revisor-qc · guardiao-da-verdade
+    └── skills/   arquiteto-de-midia · inventariar-material · planejar-edicao · renderizar-corte · qc-render · auditar-diversidade · handoff-midia
 ```
 
 ## Stack modular recomendada
@@ -131,11 +145,18 @@ Sem importar aplicações inteiras, esta bancada absorve padrões úteis de proj
 - **agentic-video-editor:** separação `Preprocess → Director → Trim Refiner → Editor → Reviewer`, retry orientado por feedback e versionamento;
 - **Remotion Skills:** separação modular entre metadata, captions e rendering, útil para manter componentes substituíveis.
 
-Também existem duas ferramentas pequenas em `scripts/`, apoiadas por FFmpeg/FFprobe:
+Ciclo executável de uma peça (detalhes em `docs/MAQUINA_DE_EDICAO.md`):
 
 ```bash
-python scripts/media_probe.py media/source --out media/work/footage-index.json --hash
+make check                                                     # testes, validação, diversidade
+python scripts/media_probe.py media/source --out media/work/footage-index-v01.json --hash
 python scripts/contact_sheet.py media/source/video.mp4 --out media/contact-sheets/video.png
+python scripts/edp_to_render_plan.py media/work/peca.edit-plan.yaml --out media/work/peca.render-plan.json
+python scripts/render_plan.py media/work/peca.render-plan.json --source-root media/source --out media/renders/peca__v01.mp4 --execute
+python scripts/caption_segments.py media/work/peca.transcript.json --out media/work/peca.legenda.json --srt media/work/peca.legenda.srt
+python scripts/qc_render.py media/renders/peca__v01.mp4 --template meta-ad --out media/renders/peca__v01.qc.json
+python scripts/diversity_check.py media/work/ledger.jsonl
+python scripts/handoff_pack.py media/work/ledger.jsonl <creative_id> --objective "..." --approved-by "..." --qc-report media/renders/peca__v01.qc.json
 ```
 
 ## Como começar uma peça
@@ -143,12 +164,13 @@ python scripts/contact_sheet.py media/source/video.mp4 --out media/contact-sheet
 1. Mantenha o arquivo original intacto em armazenamento aprovado; se trabalhar localmente, use `media/source/` fora do Git.
 2. Rode o inventário técnico e gere contact sheets dos vídeos candidatos.
 3. Copie `templates/brief.example.yaml` para um arquivo de trabalho e preencha somente fatos confirmados.
-4. Inventarie o material antes de propor cortes.
-5. Feche a matriz `conceito × hook × execução × formato`.
-6. Gere um `edit-plan` antes do render quando houver mais de uma variante ou edição não trivial.
-7. Renderize versões sem destruir a fonte.
-8. Execute o QC descrito em `docs/QC.md` e registre o que mudou entre versões.
-9. Só após aprovação humana a peça sai desta bancada para mídia.
+4. Inventarie o material antes de propor cortes (`inventariar-material`).
+5. Escolha o template em `templates/osdr-formats.json` e feche a matriz `conceito × hook × execução × formato` (`planejar-edicao`).
+6. Gere um `edit-plan` antes do render e cadastre a variante no ledger com hipótese.
+7. Renderize versões sem destruir a fonte; segmente a legenda quando houver fala (`renderizar-corte`).
+8. Execute o QC por template e o padrão OSDR (`qc-render`), audite a diversidade do lote (`auditar-diversidade`).
+9. Só após aprovação humana registrada a peça sai desta bancada para mídia (`handoff-midia`).
+10. Quando houver dados de veiculação, registre observações comparáveis e decida `escalar`, `iterar`, `pausar` ou `inconclusivo` (`docs/LEARNING_LOOP.md`).
 
 ## Convenção de nomes
 
@@ -178,4 +200,4 @@ Evitar nomes como `final_final_agora-vai-3.mp4`.
 
 ## Estado atual
 
-**Base operacional preparada para receber material do O Segredo da Roça.** O próximo passo é executar um lote real pelo ciclo `brief → inventário → matriz criativa → EDP → render → QC → aprovação` e ajustar o método apenas onde a operação mostrar necessidade real.
+**Máquina de edição executável de ponta a ponta, com padrão editorial OSDR e gate humano.** O próximo passo é colocar um lote real em `media/source/` e rodar o ciclo `inventário → conceitos → EDP → render → legenda → QC → diversidade → aprovação → handoff`, ajustando o método só onde a operação mostrar necessidade.

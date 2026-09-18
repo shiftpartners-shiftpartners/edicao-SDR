@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "format": "9:16",
+  "clips": [
+    {"source": "exemplo.mp4", "in": 0, "out": 2.5},
+    {"source": "exemplo.mp4", "in": 5, "out": 9}
+  ]
+}

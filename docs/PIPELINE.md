@@ -110,6 +110,10 @@ Antes de qualquer saída para mídia, confirmar:
 - variante escolhida;
 - destino correto da peça.
 
+## Estado executável
+
+Cada papel acima tem um subagente em `.claude/agents/` e um script: inventário (`media_probe.py`, `contact_sheet.py`), refino e conversão (`edp_to_render_plan.py`), render (`render_plan.py`), legenda (`caption_segments.py`), QC técnico por template (`qc_render.py --template`), diversidade (`diversity_check.py`) e handoff (`handoff_pack.py`). O mapa está em `docs/MAQUINA_DE_EDICAO.md`; limites em `docs/SETUP.md`. Não existe orquestrador automático: a passagem entre etapas é decisão do operador.
+
 ## Regra de simplicidade
 
 Só adicionar um novo agente, etapa ou ferramenta quando uma falha operacional real justificar.
