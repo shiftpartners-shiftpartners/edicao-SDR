@@ -146,3 +146,34 @@ class QcRenderTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+@unittest.skipUnless(shutil.which("ffmpeg") and shutil.which("ffprobe"), "FFmpeg required")
+class ContactSheetOnRenderTest(unittest.TestCase):
+    """Regression: sheets of concatenated renders must contain the opening frames."""
+
+    def test_first_tile_comes_from_the_opening(self):
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from render_plan import render
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            root = base / "source"
+            root.mkdir()
+            white, black = root / "white.mp4", root / "black.mp4"
+            for path, color in ((white, "white"), (black, "black")):
+                subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i", f"color=c={color}:s=320x240:r=30",
+                                "-t", "2", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-threads", "2", str(path)], check=True)
+            plan = {"version": 1, "format": "1:1", "clips": [
+                {"source": "white.mp4", "in": 0, "out": 1.5}, {"source": "black.mp4", "in": 0, "out": 1.5}]}
+            output = base / "concat.mp4"
+            render(plan, root, output, execute=True)
+            sheet = base / "sheet.png"
+            script = ROOT / "scripts" / "contact_sheet.py"
+            subprocess.run([sys.executable, str(script), str(output), "--out", str(sheet), "--frames", "4", "--columns", "4", "--width", "64"],
+                           check=True, capture_output=True)
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(sheet), "-vf", "crop=32:32:8:8", "-f", "rawvideo",
+                                  "-pix_fmt", "gray", "-"], check=True, capture_output=True).stdout
+            self.assertGreater(sum(raw) / len(raw), 200, "first tile should come from the white opening clip")
+            raw_last = subprocess.run(["ffmpeg", "-v", "error", "-i", str(sheet), "-vf", "crop=32:32:iw-40:8", "-f", "rawvideo",
+                                       "-pix_fmt", "gray", "-"], check=True, capture_output=True).stdout
+            self.assertLess(sum(raw_last) / len(raw_last), 60, "last tile should come from the black closing clip")
