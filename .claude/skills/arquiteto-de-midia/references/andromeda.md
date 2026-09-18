@@ -15,4 +15,11 @@ Distinguir:
 - formato: 9:16, 1:1, 4:5 etc.;
 - variante: combinação versionada desses elementos.
 
-Fonte: https://engineering.fb.com/2024/12/02/production-engineering/meta-andromeda-advantage-automation-next-gen-personalized-ads-retrieval-engine/
+## Atualização 2026-09
+
+Em 2025 a Meta publicou o GEM (Generative Ads Model), modelo-base de recomendação de anúncios com sinais multimodais. Consequência segura: ampliar a rastreabilidade do criativo e do resultado; não tentar simular a decisão interna da plataforma.
+
+Uma peça só entra no ciclo de aprendizagem quando tem: identidade estável (`creative_id`) e origem rastreável; conceito, hook, execução, formato e versão explícitos; hipótese e variável principal; QC técnico, criativo e de verdade aprovado; destino e objetivo registrados no handoff; observação posterior com janela e denominadores; decisão humana (`escalar`, `iterar`, `pausar`, `inconclusivo`).
+
+Fontes: https://engineering.fb.com/2024/12/02/production-engineering/meta-andromeda-advantage-automation-next-gen-personalized-ads-retrieval-engine/ e https://engineering.fb.com/2025/11/10/ml-applications/metas-generative-ads-model-gem-the-central-brain-accelerating-ads-recommendation-ai-innovation/
+
