@@ -12,6 +12,7 @@ Este documento liga cada etapa do pipeline ao script que executa, ao agente que 
 | 4. Render | `scripts/render_plan.py` | `renderer` | `renderizar-corte` | `media/renders/<id>__vNN.mp4` + `.mp4.json` |
 | 4b. Legenda | `scripts/caption_segments.py` | `refinador-de-corte` | `renderizar-corte` | `legenda-vNN.json`, `legenda-vNN.srt` (acabamento humano) |
 | 4c. Rascunho de acabamento | `scripts/finish_draft.py` (legendas do EDP + locução + loudnorm) | `renderer` | `renderizar-corte` | `*-draft.mp4` + `.ass` para revisão no celular; acabamento final continua humano |
+| 5b. Esteira (todas as estações em um comando) | `scripts/lote_run.py` (`make lote LOTE=...`) | orquestra `preprocessador` → `renderer` → `revisor-qc`; não aprova | todas | `RELATORIO_ESTEIRA-*.md` + log; ver `docs/ESTEIRA.md` |
 | 0b. Saneamento de fonte | `scripts/normalize_source.py` | `preprocessador` | `inventariar-material` | `*.rangefix.mp4` (irmão remuxado; original intacto) |
 | 5. QC | `scripts/qc_render.py --template`, `scripts/contact_sheet.py` | `revisor-qc` + `guardiao-da-verdade` | `qc-render` | `*.qc.json`, parecer curto |
 | 6. Diversidade do lote | `scripts/diversity_check.py` | `revisor-qc` | `auditar-diversidade` | `diversidade-vNN.md` |

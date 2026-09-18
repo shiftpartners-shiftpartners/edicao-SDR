@@ -3,10 +3,10 @@ PY ?= python
 ID ?= exemplo
 TEMPLATE ?= meta-ad
 
-.PHONY: setup check test validate diversity inventory sheet normalize plan dry-run render finish qc captions handoff help
+.PHONY: setup check test validate diversity inventory sheet normalize plan dry-run render finish qc captions handoff lote help
 
 help:
-	@echo "make setup | check | inventory | sheet SRC=... | normalize SRC=... | plan ID=... | dry-run ID=... | render ID=... | finish ID=... VO=... | qc ID=... | diversity | handoff ID=... OBJ=... BY=..."
+	@echo "make setup | check | inventory | sheet SRC=... | normalize SRC=... | plan ID=... | dry-run ID=... | render ID=... | finish ID=... VO=... | qc ID=... | diversity | handoff ID=... OBJ=... BY=... | lote LOTE=media/work/<lote>"
 
 setup:
 	$(PY) -m pip install -r requirements.txt
@@ -51,6 +51,9 @@ qc:
 
 captions:
 	$(PY) scripts/caption_segments.py media/work/$(ID).transcript.json --out media/work/$(ID).legenda.json --srt media/work/$(ID).legenda.srt
+
+lote:
+	$(PY) scripts/lote_run.py $(LOTE)
 
 handoff:
 	$(PY) scripts/handoff_pack.py media/work/ledger.jsonl $(ID) --objective "$(OBJ)" --approved-by "$(BY)" --qc-report media/renders/$(ID).qc.json --out media/work/handoff-$(ID).md
