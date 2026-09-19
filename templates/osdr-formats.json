@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "note": "Templates editoriais do O Segredo da Roça (padrão interno V1, mai/2026). Não são exigências da Meta. Durações em segundos; tolerância aplicada pelo QC.",
+  "templates": {
+    "reel15":   {"label": "Reel 15s apetite",        "format": "9:16", "min_seconds": 12, "max_seconds": 16, "caption_required": false, "hook_window_seconds": 2},
+    "reel30":   {"label": "Reel 30s educacional",     "format": "9:16", "min_seconds": 25, "max_seconds": 32, "caption_required": true,  "hook_window_seconds": 2},
+    "tiktok":   {"label": "TikTok 9-15s viral",       "format": "9:16", "min_seconds": 8,  "max_seconds": 16, "caption_required": true,  "hook_window_seconds": 1},
+    "meta-ad":  {"label": "Anúncio Meta 6-9s",        "format": "9:16", "min_seconds": 5,  "max_seconds": 10, "caption_required": true,  "hook_window_seconds": 1.5},
+    "meta-ad-feed": {"label": "Anúncio Meta feed 4:5", "format": "4:5", "min_seconds": 5,  "max_seconds": 15, "caption_required": true,  "hook_window_seconds": 1.5},
+    "nano":     {"label": "Nano-vídeo 7s",            "format": "9:16", "min_seconds": 5,  "max_seconds": 8,  "caption_required": false, "hook_window_seconds": 1},
+    "story":    {"label": "Story sequencial (1 card)", "format": "9:16", "min_seconds": 1,  "max_seconds": 5,  "caption_required": true,  "hook_window_seconds": 1}
+  }
+}

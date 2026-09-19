@@ -37,8 +37,25 @@ Registrar:
 - edit plan/timestamps;
 - versão;
 - resultado do QC;
-- pendências humanas.
+- pendências humanas;
+- hipótese e variável principal alterada;
+- template editorial usado;
+- observação de performance, quando disponível;
+- decisão e justificativa.
+
+- Não declarar uma variante vencedora sem janela, denominador, objetivo e observações comparáveis.
+- Não confundir sinal de mídia com diagnóstico causal; registrar limites e mudanças concorrentes.
+- Preservar observações históricas: corrigir por novo registro, não sobrescrever resultado anterior.
+- Seguir `docs/PADRAO_EDICAO_OSDR.md`: gancho em 2 s, ritmo por template, legenda em blocos curtos, som de produto, fechamento sem despedida.
+
+## Skill principal
+
+Usar `.claude/skills/arquiteto-de-midia/SKILL.md` como control plane para inventário, arquitetura criativa, planos de edição, variantes e QC.
+
+## Subagentes e skills de etapa
+
+Seis subagentes em `.claude/agents/` (`preprocessador`, `diretor-criativo`, `refinador-de-corte`, `renderer`, `revisor-qc`, `guardiao-da-verdade`) e seis skills de etapa em `.claude/skills/` operam os scripts. O mapa completo está em `docs/MAQUINA_DE_EDICAO.md`. Nenhum agente aprova peça para mídia; cada um devolve saída versionada e pendências humanas.
 
 ## Escopo deste repositório
 
-Este repositório carrega o método e a infraestrutura editorial da bancada de edição. Skills e instruções pessoais de operadores ficam fora daqui para evitar duplicação e acoplamento desnecessário.
+Este repositório carrega o método, a infraestrutura e a máquina de edição da bancada. O padrão editorial da casa está em `docs/PADRAO_EDICAO_OSDR.md` como referência versionada; instruções pessoais de operadores, fatos comerciais e contexto de clientes ficam fora daqui.

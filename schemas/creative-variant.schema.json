@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shiftpartners.local/schemas/creative-variant.schema.json",
+  "title": "Creative Variant",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["creative_id", "asset_filename", "concept", "hook", "execution", "format", "version", "hypothesis", "primary_variable", "status", "human_approval"],
+  "properties": {
+    "creative_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{5,79}$"},
+    "asset_filename": {"type": "string", "minLength": 1},
+    "product_line": {"type": ["string", "null"]},
+    "concept": {"type": "object", "required": ["id", "summary"], "additionalProperties": false, "properties": {"id": {"type": "string"}, "summary": {"type": "string", "minLength": 1}}},
+    "hook": {"type": "object", "required": ["id", "summary"], "additionalProperties": false, "properties": {"id": {"type": "string"}, "summary": {"type": "string", "minLength": 1}}},
+    "execution": {"type": "object", "required": ["id", "summary"], "additionalProperties": false, "properties": {"id": {"type": "string"}, "summary": {"type": "string", "minLength": 1}}},
+    "format": {"type": "string", "enum": ["9:16", "4:5", "1:1", "16:9"]},
+    "duration_seconds": {"type": ["number", "null"], "exclusiveMinimum": 0},
+    "version": {"type": "integer", "minimum": 1},
+    "hypothesis": {"type": "string", "minLength": 1},
+    "primary_variable": {"type": "string", "enum": ["concept", "hook", "execution", "format", "duration", "cta", "pacing", "protagonist", "demonstration", "mixed"]},
+    "parent_creative_id": {"type": ["string", "null"]},
+    "source_hashes": {"type": "array", "items": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "uniqueItems": true},
+    "material_difference": {"type": "boolean"},
+    "status": {"type": "string", "enum": ["draft", "qc_pending", "approved", "observing", "decided", "archived"]},
+    "human_approval": {"type": "string", "enum": ["required", "approved", "rejected"]},
+    "notes": {"type": ["string", "null"]}
+  }
+}

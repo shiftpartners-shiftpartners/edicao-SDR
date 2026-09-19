@@ -19,6 +19,8 @@ Rodar `scripts/media_probe.py` e gerar contact sheets dos vídeos candidatos com
 
 O material deve ser inspecionado antes de qualquer decisão de corte.
 
+Antes de decidir, ler `docs/PADRAO_EDICAO_OSDR.md` e escolher o template em `templates/osdr-formats.json`.
+
 ## Etapa 2 — Arquitetura criativa
 
 Definir:
@@ -66,3 +68,5 @@ Registrar somente aprendizados de trabalho necessários para a próxima rodada:
 - decisão de manter, revisar ou descartar.
 
 Não transformar este repositório em arquivo de conversa ou contexto pessoal.
+
+Usar `docs/LEARNING_LOOP.md` para registrar observações comparáveis. O aprendizado não pode depender de nomes soltos de arquivo, memória do operador ou prints sem contexto.

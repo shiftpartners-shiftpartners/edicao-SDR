@@ -1,17 +1,19 @@
 # CLAUDE.md — Edição de Mídia O Segredo da Roça
 
-Leia `AGENTS.md` antes de executar qualquer tarefa de edição ou planejamento criativo neste repositório.
+Leia `AGENTS.md`, `.claude/skills/arquiteto-de-midia/SKILL.md` e `docs/PADRAO_EDICAO_OSDR.md` antes de executar qualquer tarefa de edição ou planejamento criativo neste repositório. O mapa etapa × script × agente × skill está em `docs/MAQUINA_DE_EDICAO.md`.
 
 Prioridades:
 
 1. Reaproveitar material real antes de gerar material novo.
 2. Organizar o raciocínio de mídia antes de renderizar.
-3. Produzir variações materialmente diferentes, não apenas cosméticas.
-4. Trabalhar de forma não destrutiva e versionada.
-5. Manter aprovação humana antes de qualquer saída para campanha.
+3. Produzir variações materialmente diferentes, não apenas cosméticas (`scripts/diversity_check.py`).
+4. Trabalhar de forma não destrutiva e versionada: nunca sobrescrever render, índice ou relatório.
+5. Manter aprovação humana antes de qualquer saída para campanha (`human_approval: approved` no ledger).
 
-Quando houver dúvida entre construir do zero e reaproveitar open source, leia `docs/RESEARCH_UPSTREAMS.md` e prefira o menor componente que resolva a necessidade.
+Skills de etapa em `.claude/skills/`: `inventariar-material`, `planejar-edicao`, `renderizar-corte`, `qc-render`, `auditar-diversidade`, `handoff-midia`, `auditar-campanha-meta` (campanha viva: agente `auditor-de-trafego-meta`, só leitura, checklist em `docs/CHECKLIST_AUDITORIA_META.md`). Subagentes em `.claude/agents/`. Rode `make check` antes de dizer que algo funciona.
 
-Skills operacionais são mantidas fora deste repositório e podem ser usadas pelo ambiente de trabalho quando disponíveis, sem duplicação aqui.
+Quando houver dúvida entre construir do zero e reaproveitar open source, leia `docs/TOOL_SELECTION_2026-09.md` e `docs/RESEARCH_UPSTREAMS.md` e prefira o menor componente que resolva a necessidade.
 
-Não publicar, não alterar mídia, não expor credenciais e não registrar informações pessoais.
+Fatos comerciais (preço, prazo, frete, rota, kit, brinde, garantia, prova social) não vivem aqui: entram por brief com fonte autorizada e passam pelo agente `guardiao-da-verdade`.
+
+Não publicar, não alterar mídia bruta, não expor credenciais e não registrar informações pessoais.
