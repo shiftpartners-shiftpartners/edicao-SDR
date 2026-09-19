@@ -19,6 +19,7 @@ Este documento liga cada etapa do pipeline ao script que executa, ao agente que 
 | 7. Aprovação humana | `scripts/validate_records.py` | ninguém: humano | — | ledger com `human_approval: approved` |
 | 8. Handoff | `scripts/handoff_pack.py` | — | `handoff-midia` | `handoff-<creative_id>.md` |
 | 9. Observação e decisão | `scripts/validate_records.py` | — | `handoff-midia` | `performance-observations.jsonl` |
+| 10. Auditoria de campanha viva | `docs/CHECKLIST_AUDITORIA_META.md` (30 itens, só leitura da API) | `auditor-de-trafego-meta` | `auditar-campanha-meta` | `AUDITORIA_CAMPANHA_<id>_<data>_<hora>.md` versionado, sem editar nada na Meta |
 
 Padrão editorial da casa: `docs/PADRAO_EDICAO_OSDR.md`. Templates por formato: `templates/osdr-formats.json`. Specs Meta: `docs/META_SPECS.md`.
 

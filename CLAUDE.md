@@ -10,7 +10,7 @@ Prioridades:
 4. Trabalhar de forma não destrutiva e versionada: nunca sobrescrever render, índice ou relatório.
 5. Manter aprovação humana antes de qualquer saída para campanha (`human_approval: approved` no ledger).
 
-Skills de etapa em `.claude/skills/`: `inventariar-material`, `planejar-edicao`, `renderizar-corte`, `qc-render`, `auditar-diversidade`, `handoff-midia`. Subagentes em `.claude/agents/`. Rode `make check` antes de dizer que algo funciona.
+Skills de etapa em `.claude/skills/`: `inventariar-material`, `planejar-edicao`, `renderizar-corte`, `qc-render`, `auditar-diversidade`, `handoff-midia`, `auditar-campanha-meta` (campanha viva: agente `auditor-de-trafego-meta`, só leitura, checklist em `docs/CHECKLIST_AUDITORIA_META.md`). Subagentes em `.claude/agents/`. Rode `make check` antes de dizer que algo funciona.
 
 Quando houver dúvida entre construir do zero e reaproveitar open source, leia `docs/TOOL_SELECTION_2026-09.md` e `docs/RESEARCH_UPSTREAMS.md` e prefira o menor componente que resolva a necessidade.
 
