@@ -7,9 +7,21 @@ Regra número 2: nada de dado pessoal no índice (sem nome de cliente, telefone,
 
 ## 1. Entrada
 
-- Pasta raiz do Drive: `Kit Cozinha` (nome exato a confirmar pela operação) e, se existirem, as irmãs `Kit Cozinha da Roça`, `Prontos`, `Depoimentos`, `Entregas`, `Panela cliente`.
-- Extensões: .mp4 .mov .m4v .webm .jpg .jpeg .png .heic .webp
-- Ignorar: arquivos abaixo de 200 KB, capturas de tela de conversa, PDFs, planilhas.
+Repositório: `shiftpartners-shiftpartners/edicao-SDR`, branch `claude/fervent-fermat-cpizxm` (esta missão vive nela até o PR #1 entrar na main).
+
+Pastas do Drive a ler, nesta ordem (nome exato · caminho · link):
+
+| # | Pasta | Caminho no Drive | Link | O que tem |
+|---|---|---|---|---|
+| 1 | `Envios de Eduardo` | Meu Drive / Envios de Eduardo | https://drive.google.com/drive/folders/1HkMxTr1JclPRG5aycdRN0oKo-NMoR3nx | 17 vídeos brutos de 29 a 162 MB (prioridade máxima: nunca foram lidos) |
+| 2 | `2026-07-01_kit_cozinha_urgente` | Meu Drive / OSDR / 02_CONTEUDO / criativos / 2026-07-01_kit_cozinha_urgente | https://drive.google.com/drive/folders/19ZVRDcHLucbae8L8iomWtbkfRRNdhBU1 | FINAL v1 a v8, part1/2/3, clipe_kit_novo, cards de julho |
+| 3 | `midia` (09/09) | Meu Drive / ... / public / midia | https://drive.google.com/drive/folders/1jvX9YfC9ek1eh5uGsg8LVhJUbV_Ky3Tg | kit_cozinha_video.mp4 (10,7 MB), kit_cozinha_card.jpg, kit_turbo_card.jpg |
+| 4 | `Kit Cozinha ` (com espaço no fim) | Compartilhados comigo / O Segredo da Roça (Banco de imagens) / Kit Cozinha | https://drive.google.com/drive/folders/1UlnZTn-O4UCYsXsu77qjqiRK4PBje38l | fotos Kit cozinha 1 a 13, Cozinha_1 a 3, WhatsApp Video 2026-04-27, Kit Cozinha.txt |
+| 5 | `O Segredo da Roça (Banco de imagens)` inteiro | Compartilhados comigo | https://drive.google.com/drive/folders/15AAMkfPENS_u2WgmM_7eQOoivGuQ9V_2 | banco geral desde 2022; só depois das pastas 1 a 4 |
+| 6 | `52_KIT_COZINHA` | Meu Drive / ... / 52_KIT_COZINHA | https://drive.google.com/drive/folders/1jcuSkUi-V0KleyxjBsfNaznROPgKo4Zu | só INDEX.md, ler como referência |
+
+Extensões: .mp4 .mov .m4v .webm .jpg .jpeg .png .heic .webp
+Ignorar: arquivos abaixo de 200 KB, capturas de tela de conversa, PDFs, planilhas, e os 60 intermediários `_v5_*.png` de PILOTO_BANNER.
 
 ## 2. Ferramentas do repositório (não reinventar)
 
@@ -64,8 +76,20 @@ Para cada cena encontrada anotar: `arquivo, in, out (segundos), etiqueta, qualid
 
 A bancada lê `BIBLIOTECA_OSDR_v01.csv`, monta EDPs só com faixas etiquetadas, renderiza pela esteira e entrega rascunhos para aprovação. A operação não volta a procurar cena nenhuma.
 
-## 7. Prompt pronto para colar no Codex (ou em outro agente)
+## 7. Prompt pronto para colar no Codex
 
 ```
-Você vai inventariar material de vídeo e imagem para uma bancada de edição. Leia primeiro docs/missoes/MISSAO_INVENTARIO_DRIVE_OSDR.md neste repositório e siga à risca. Pasta de entrada: <caminho local da pasta do Drive "Kit Cozinha">. Nunca altere, mova ou apague arquivos da pasta de entrada. Use os scripts do repositório (scripts/media_probe.py e scripts/contact_sheet.py) e produza exatamente as cinco saídas da seção 4, com os nomes indicados. Etiquete cenas só pelo que se vê nas pranchas ou no player, com as etiquetas da seção 3; marque sempre texto_preco_antigo, rosto_identificavel e ia_gerada quando aparecerem. Não escreva nome de cliente, telefone ou endereço em nenhum arquivo. Ao terminar, rode `make check` e me devolva: contagem de arquivos lidos, contagem por etiqueta, a tabela tem/falta por conceito e a lista de erros.
+Repositório: shiftpartners-shiftpartners/edicao-SDR, branch claude/fervent-fermat-cpizxm. Clone (ou abra) esse repositório e leia primeiro docs/missoes/MISSAO_INVENTARIO_DRIVE_OSDR.md; siga à risca.
+
+Tarefa: inventariar material de vídeo e imagem do Google Drive da operação para a bancada de edição. Pastas de entrada, na ordem da seção 1 da missão: (1) "Envios de Eduardo" https://drive.google.com/drive/folders/1HkMxTr1JclPRG5aycdRN0oKo-NMoR3nx ; (2) "2026-07-01_kit_cozinha_urgente" https://drive.google.com/drive/folders/19ZVRDcHLucbae8L8iomWtbkfRRNdhBU1 ; (3) "midia" https://drive.google.com/drive/folders/1jvX9YfC9ek1eh5uGsg8LVhJUbV_Ky3Tg ; (4) "Kit Cozinha " https://drive.google.com/drive/folders/1UlnZTn-O4UCYsXsu77qjqiRK4PBje38l ; (5) "O Segredo da Roça (Banco de imagens)" https://drive.google.com/drive/folders/15AAMkfPENS_u2WgmM_7eQOoivGuQ9V_2 só depois das quatro primeiras. Se o Drive estiver sincronizado no computador, use o caminho local equivalente; se estiver via conector, baixe cada arquivo para media/source/drive/<pasta>/ dentro do repositório (pasta ignorada pelo Git) antes de processar.
+
+Regras: nunca alterar, mover, renomear ou apagar nada no Drive. Nenhum nome de cliente, telefone ou endereço em arquivo nenhum. Não commitar mídia.
+
+Ferramentas: rode make setup; use scripts/media_probe.py (com --hash) e scripts/contact_sheet.py (16 quadros por vídeo). Não reescreva esses scripts.
+
+Etiquetas: só as da seção 3 da missão, aplicadas pelo que se vê nas pranchas ou no player. Marque sempre texto_preco_antigo, rosto_identificavel e ia_gerada quando aparecerem.
+
+Saídas obrigatórias, com estes nomes exatos: media/work/biblioteca/footage-index-osdr-v01.json ; media/contact-sheets/osdr/<nome>.png ; media/work/biblioteca/BIBLIOTECA_OSDR_v01.csv ; media/work/biblioteca/BIBLIOTECA_OSDR_v01.md (resumo por etiqueta, melhores 3 por etiqueta, tabela tem/falta por conceito T1 a T6, bloqueios, erros) ; uma linha em media/work/lote-t1t6/LOG.md com data e hora no fuso de São Paulo.
+
+Ao terminar: rode make check; faça commit só dos arquivos .json .csv .md e das pranchas .png na branch claude/fervent-fermat-cpizxm com a mensagem "Biblioteca OSDR v01: inventário do Drive (Kit Cozinha)" e dê push. Devolva no chat: arquivos lidos por pasta, contagem por etiqueta, a tabela tem/falta e a lista de erros.
 ```
