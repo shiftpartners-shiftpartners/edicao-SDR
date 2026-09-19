@@ -91,5 +91,5 @@ Etiquetas: só as da seção 3 da missão, aplicadas pelo que se vê nas prancha
 
 Saídas obrigatórias, com estes nomes exatos: media/work/biblioteca/footage-index-osdr-v01.json ; media/contact-sheets/osdr/<nome>.png ; media/work/biblioteca/BIBLIOTECA_OSDR_v01.csv ; media/work/biblioteca/BIBLIOTECA_OSDR_v01.md (resumo por etiqueta, melhores 3 por etiqueta, tabela tem/falta por conceito T1 a T6, bloqueios, erros) ; uma linha em media/work/lote-t1t6/LOG.md com data e hora no fuso de São Paulo.
 
-Ao terminar: rode make check; faça commit só dos arquivos .json .csv .md e das pranchas .png na branch claude/fervent-fermat-cpizxm com a mensagem "Biblioteca OSDR v01: inventário do Drive (Kit Cozinha)" e dê push. Devolva no chat: arquivos lidos por pasta, contagem por etiqueta, a tabela tem/falta e a lista de erros.
+Ao terminar: rode make check; faça commit só dos arquivos .json .csv .md na branch claude/fervent-fermat-cpizxm (as pranchas .png ficam em media/contact-sheets/, pasta ignorada pelo Git; se conseguir, copie-as para uma pasta nova no Drive chamada BIBLIOTECA_OSDR_pranchas, sem tocar nas pastas de origem) com a mensagem "Biblioteca OSDR v01: inventário do Drive (Kit Cozinha)" e dê push. Devolva no chat: arquivos lidos por pasta, contagem por etiqueta, a tabela tem/falta e a lista de erros.
 ```
